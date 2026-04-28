@@ -30,13 +30,25 @@
       overflow-x: hidden;
     }
 
+    @keyframes fadeSlideDown {
+  from { 
+    opacity: 0; 
+    transform: translateY(-30px); /* เพิ่มระยะสไลด์ให้ยาวขึ้นนิดนึงเพื่อให้เห็นการเคลื่อนไหวชัดขึ้น */
+  }
+  to   { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+
     /* ============================================================
        NAVBAR
     ============================================================ */
     .navbar {
       position: fixed; top: 0; left: 0;
       width: 100%; height: var(--nav-height);
-      background: rgba(9, 4, 82, 0.98);
+      background: rgba(9, 4, 70, 0.98);
       border-bottom: 1px solid rgba(0,0,0,0.05);
       z-index: 1000;
       display: flex; align-items: center;
@@ -61,8 +73,10 @@
     .logo-top  { font-size: 13px; font-weight: 400; color: #f7f7f7; }
     .logo-bottom { font-size: 16px; font-weight: 500; color: #d1a655; margin-top: -2px; }
 
+
+
     .nav-menu {
-      display: flex; gap: 8px;
+      display: flex; gap: 2px;
       list-style: none; align-items: center;
     }
     .nav-menu a {
@@ -71,7 +85,10 @@
       padding: 6px 16px; border-radius: 30px;
       transition: all 0.2s ease;
     }
-    .nav-menu a.active { color: white; font-size: 15px; font-weight: 100; }
+    .nav-menu a.active {
+      color: #deb974;
+      font-weight: 400;
+    }
     .nav-menu a:hover:not(.active) { color: #deb974; }
 
     /* Hamburger toggle */
@@ -111,11 +128,7 @@
        MOBILE NAV
     ============================================================ */
 
-    @media (max-width: 360px) {
-      .nav-logo { gap: 8px; }
-      .logo-top { font-size: 13px; }
-      .logo-bottom { font-size: 16px; }
-    }
+   
 
     /* ============================================================
        LAYOUT
@@ -131,14 +144,17 @@
       text-align: center; margin-bottom: 40px;
       background: rgb(0, 1, 49);
       border-radius: 0 0 10px 10px;
+      
     }
     .hero-sub {
-      font-size: clamp(16px, 4vw, 25px); font-weight: 300; color: #ffffff;
+      font-size: clamp(18px, 4vw, 25px); font-weight: 300; color: #ffffff;
       white-space: nowrap; letter-spacing: -0.3px;
       display: inline-flex; justify-content: center;
       width: auto; margin: 10px auto 0; padding-bottom: 3px;
       border-bottom: 2px solid;
       border-image: linear-gradient(to right, transparent, rgb(255,255,255), transparent) 1;
+      animation: fadeSlideDown 0.7s 0.1s ease both;
+      
     }
     .hero-left { display: flex; justify-content: center; width: 100%; }
 
@@ -374,7 +390,7 @@
   }
       
       .nav-container { padding: 0 16px; }
-      .logo-img { width: 45px; height: 45px; }
+      .logo-img { width: 36px; height: 36px; }
       .logo-top { font-size: 12px; }
       .logo-bottom { font-size: 15px; }
 
@@ -397,7 +413,7 @@
 
       .btn-exit {
         width: 100%; height: 59px;
-        background: var(--blue); border: none;
+        background: rgba(9, 4, 70, 0.98); border: none;
         display: flex; align-items: center; justify-content: center; gap: 12px;
         color: #fff;
         font-family: 'Prompt', sans-serif;
@@ -406,7 +422,7 @@
         -webkit-tap-highlight-color: transparent;
       }
       .nav-menu a {
-        font-size: 15px; font-weight: 400;
+        font-size: 15px; font-weight: 300;
         width: 100%;
         display: flex; align-items: center; justify-content: center;
         padding: 15px 0;

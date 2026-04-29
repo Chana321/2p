@@ -4,13 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LAND PRIME</title>
-  <!-- Preconnect เพื่อลด DNS/TCP latency -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- โหลด font แบบ non-blocking -->
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap"></noscript>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -272,7 +266,7 @@
     .footer-links a { color: #ffffff; text-decoration: none; font-size: 14px; transition: color 0.2s; }
     .footer-links a:hover { color: #deb974; }
     .footer-copy {
-      font-size: 12px; color: #6b7280;
+      font-size: 12px; color:  #9ca3af;;
       padding-top: 8px;
       border-top: 1px solid rgba(255,255,255,0.1);
       width: 100%;
@@ -591,7 +585,7 @@
 
       <ul class="nav-menu" id="navMenu">
         <li class="mobile-exit-section">
-          <button class="btn-exit" onclick="closeMenu()"></button>
+          <button class="btn-exit" onclick="closeMenu()" aria-label="ปิดเมนู"></button>
         </li>
         <li><a href="#" class="active" onclick="render('all')">หน้าแรก</a></li>
         <li><a href="#grid">รายการที่ดิน</a></li>
@@ -608,6 +602,8 @@
       </button>
     </div>
   </nav>
+
+
 
   <!-- ============================================================
        MODAL
@@ -659,6 +655,8 @@
   </div>
 </div>
 
+
+   <main>
   <!-- ============================================================
        HERO
   ============================================================ -->
@@ -668,67 +666,72 @@
     </div>
   </div>
 
+
+
   <!-- ============================================================
        MAIN CONTENT
   ============================================================ -->
-  <div class="page">
 
-    <!-- Filters -->
-    <div class="filters-bar">
-      <button class="chip active" data-f="all">ทั้งหมด</button>
-      <button class="chip" data-f="house">บ้าน/ตึกคูหา</button>
-      <button class="chip" data-f="landhouse">ที่ดินเหมาะปลูกบ้าน</button>
-      <button class="chip" data-f="large-land">ที่แปลงใหญ่</button>
-    </div>
 
-    <!-- Content Header -->
-    <div class="content-header">
-      <div class="sec-label" id="secLabel">รายการทรัพย์</div>
+      <div class="page">
 
-      <!-- Desktop sort -->
-      <select class="sort-select desktop-only" id="sortSelect" onchange="applySort()">
-        <option value="default">ราคาค่าเริ่มต้น</option>
-        <option value="price-asc">ราคาต่ำ⇀สูง</option>
-        <option value="price-desc">ราคาสูง⇀ต่ำ</option>
-      </select>
+        <!-- Filters -->
+        <div class="filters-bar">
+          <button class="chip active" data-f="all">ทั้งหมด</button>
+          <button class="chip" data-f="house">บ้าน/ตึกคูหา</button>
+          <button class="chip" data-f="landhouse">ที่ดินเหมาะปลูกบ้าน</button>
+          <button class="chip" data-f="large-land">ที่แปลงใหญ่</button>
+        </div>
 
-      <!-- Mobile sort (hidden select overlaid on button) -->
-      <div class="mobile-sort-btn" style="position:relative;">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="7" y1="4" x2="7" y2="20"/><polyline points="3 8 7 4 11 8"/>
-          <line x1="17" y1="4" x2="17" y2="20"/><polyline points="13 16 17 20 21 16"/>
-        </svg>
-        <span>ราคา</span>
-        <select onchange="syncAndSort(this)" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer;">
-          <option value="default">ค่าเริ่มต้น</option>
-          <option value="price-asc">ราคาต่ำ⇀สูง</option>
-          <option value="price-desc">ราคาสูง⇀ต่ำ</option>
-        </select>
-      </div>
-    </div>
+        <!-- Content Header -->
+        <div class="content-header">
+          <div class="sec-label" id="secLabel">รายการทรัพย์</div>
 
-    <!-- Grid -->
-    <div class="grid" id="grid"></div>
+          <!-- Desktop sort -->
+          <select class="sort-select desktop-only" id="sortSelect" onchange="applySort()">
+            <option value="default">ราคาค่าเริ่มต้น</option>
+            <option value="price-asc">ราคาต่ำ⇀สูง</option>
+            <option value="price-desc">ราคาสูง⇀ต่ำ</option>
+          </select>
 
-    <!-- FAB -->
-    <div class="fab-wrapper">
-      <div class="fab-options" id="fabOptions">
-        <a href="https://www.facebook.com/profile.php?id=61585932872107" target="_blank" class="fab-mini fb" title="Facebook">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-        </a>
-        <a href="https://line.me/ti/p/~YOUR_ID" target="_blank" class="fab-mini line" title="LINE">
-          <svg viewBox="0 0 40 40" width="22" height="22" fill="white"><path d="M20 2C10.06 2 2 9.16 2 17.96c0 5.87 3.7 11.01 9.27 13.93-.4 1.5-1.47 5.43-1.68 6.27-.26 1.02.37 1.01.78.74.32-.21 5.1-3.46 7.17-4.87.73.1 1.48.15 2.24.15 9.94 0 18-7.16 18-15.96C38 9.16 29.94 2 20 2z"/></svg>
-        </a>
-        <a href="tel:0882692553" class="fab-mini tel" title="โทรสอบถาม">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.81 12.81 0 0 0 .62 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.81 12.81 0 0 0 2.81.62A2 2 0 0 1 22 18.92z"/></svg>
-        </a>
-      </div>
-      <button class="fab-main" id="fabMain" onclick="toggleFAB()" aria-label="ติดต่อเรา">
-        <img src="img/other/call2.png" alt="Call Center">
-      </button>
-    </div>
+          <!-- Mobile sort (hidden select overlaid on button) -->
+          <div class="mobile-sort-btn" style="position:relative;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="7" y1="4" x2="7" y2="20"/><polyline points="3 8 7 4 11 8"/>
+              <line x1="17" y1="4" x2="17" y2="20"/><polyline points="13 16 17 20 21 16"/>
+            </svg>
+            <span>ราคา</span>
+            <select onchange="syncAndSort(this)" aria-label="เรียงลำดับราคา" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer;">
+              <option value="default">ค่าเริ่มต้น</option>
+              <option value="price-asc">ราคาต่ำ⇀สูง</option>
+              <option value="price-desc">ราคาสูง⇀ต่ำ</option>
+            </select>
+          </div>
+        </div>
 
-  </div><!-- /page -->
+        <!-- Grid -->
+        <div class="grid" id="grid"></div>
+
+        <!-- FAB -->
+        <div class="fab-wrapper">
+          <div class="fab-options" id="fabOptions">
+            <a href="https://www.facebook.com/profile.php?id=61585932872107" target="_blank" class="fab-mini fb" title="Facebook">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+            <a href="https://line.me/ti/p/~YOUR_ID" target="_blank" class="fab-mini line" title="LINE">
+              <svg viewBox="0 0 40 40" width="22" height="22" fill="white"><path d="M20 2C10.06 2 2 9.16 2 17.96c0 5.87 3.7 11.01 9.27 13.93-.4 1.5-1.47 5.43-1.68 6.27-.26 1.02.37 1.01.78.74.32-.21 5.1-3.46 7.17-4.87.73.1 1.48.15 2.24.15 9.94 0 18-7.16 18-15.96C38 9.16 29.94 2 20 2z"/></svg>
+            </a>
+            <a href="tel:0882692553" class="fab-mini tel" title="โทรสอบถาม">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.81 12.81 0 0 0 .62 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.81 12.81 0 0 0 2.81.62A2 2 0 0 1 22 18.92z"/></svg>
+            </a>
+          </div>
+          <button class="fab-main" id="fabMain" onclick="toggleFAB()" aria-label="ติดต่อเรา">
+            <img src="img/other/call2.png" alt="Call Center">
+          </button>
+        </div>
+
+      </div><!-- /page -->
+  </main>
 
   <!-- ============================================================
        FOOTER

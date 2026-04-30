@@ -688,7 +688,7 @@
           <div class="sec-label" id="secLabel">รายการทรัพย์</div>
 
           <!-- Desktop sort -->
-          <select class="sort-select desktop-only" id="sortSelect" onchange="applySort()">
+          <select class="sort-select desktop-only" id="sortSelect" onchange="applySort()" aria-label="เรียงลำดับราคา">
             <option value="default">ราคาค่าเริ่มต้น</option>
             <option value="price-asc">ราคาต่ำ⇀สูง</option>
             <option value="price-desc">ราคาสูง⇀ต่ำ</option>
@@ -813,55 +813,61 @@
 
     /* ---- Modal ---- */
     function openDetail(idx) {
-      const d = DATA[idx];
-      galImages = (d.gallery && d.gallery.length > 0) ? d.gallery : [d.img];
-      galIndex = 0;
+  const d = DATA[idx];
+  galImages = (d.gallery && d.gallery.length > 0) ? d.gallery : [d.img];
+  galIndex = 0;
 
-      const track = document.getElementById('galTrack');
-      track.innerHTML = galImages.map(src =>
-        `<div class="gal-slide"><img src="${src}" draggable="false"></div>`
-      ).join('');
-      track.style.transform = 'translateX(0%)';
-      buildDots();
+  // อ่านข้อมูลทั้งหมดก่อน ไม่แตะ DOM
+  const trackHTML = galImages.map(src =>
+    `<div class="gal-slide"><img src="${src}" draggable="false"></div>`
+  ).join('');
 
-      requestAnimationFrame(() => { document.querySelector('.modal-body').scrollTop = 0; });
+  const dotsHTML = galImages.map((_, i) =>
+    `<div class="gal-dot ${i === 0 ? 'active' : ''}" onclick="galJump(${i})"></div>`
+  ).join('');
 
-      
-      document.getElementById('modalPrice').textContent = d.price + ' บาท';
-      document.getElementById('modalArea').textContent  = d.area;
-      document.getElementById('modalDesc').textContent  = d.desc;
-      document.getElementById('modalLoc').innerHTML =
-        `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.5-7-11a7 7 0 0114 0c0 4.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>${d.loc}`;
+  const locHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M12 21s-7-6.5-7-11a7 7 0 0114 0c0 4.5-7 11-7 11z"/>
+    <circle cx="12" cy="10" r="2.5"/></svg>${d.loc}`;
 
-      
+  // เขียน DOM ทั้งหมดในรอบเดียว
+  const track  = document.getElementById('galTrack');
+  const dots   = document.getElementById('galDots');
+  const modal  = document.getElementById('detailModal');
+  const mapBtn = document.getElementById('btnMap');
+  const fbBtn  = document.getElementById('btnFB');
+  const body   = document.querySelector('.modal-body');
 
-      const mapBtn = document.getElementById('btnMap');
-      mapBtn.style.display = d.map ? 'flex' : 'none';
-      if (d.map) mapBtn.href = d.map;
+  track.innerHTML               = trackHTML;
+  track.style.transform         = 'translateX(0%)';
+  dots.innerHTML                = dotsHTML;
 
-      const fbBtn = document.getElementById('btnFB');
-      fbBtn.style.display = d.fbPost ? 'flex' : 'none';
-      if (d.fbPost) fbBtn.href = d.fbPost;
+  document.getElementById('modalPrice').textContent = d.price + ' บาท';
+  document.getElementById('modalArea').textContent  = d.area;
+  document.getElementById('modalDesc').textContent  = d.desc;
+  document.getElementById('modalLoc').innerHTML     = locHTML;
 
-      document.getElementById('detailModal').classList.add('open');
-      document.body.style.overflow = 'hidden';
+  mapBtn.style.display = d.map    ? 'flex' : 'none';
+  fbBtn.style.display  = d.fbPost ? 'flex' : 'none';
+  if (d.map)    mapBtn.href = d.map;
+  if (d.fbPost) fbBtn.href  = d.fbPost;
 
-       document.getElementById('detailModal').classList.add('open');
-  
-  // ล็อกทั้งหน้าเว็บ (สำคัญมาก)
+  modal.classList.add('open');
   document.documentElement.style.overflow = 'hidden';
-  document.body.style.overflow = 'hidden';
-    }
+  document.body.style.overflow            = 'hidden';
+
+  // อ่าน geometry หลัง paint เท่านั้น
+  requestAnimationFrame(() => { body.scrollTop = 0; });
+}
 
     
 
-    function closeDetail() {
-      document.getElementById('detailModal').classList.remove('open');
-      document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
+  // แก้เป็น
+function closeDetail() {
+  document.getElementById('detailModal').classList.remove('open');
+  document.documentElement.style.overflow = '';
   document.body.style.overflow = '';
-    }
-
+}
     function overlayClick(e) {
       if (e.target === document.getElementById('detailModal')) closeDetail();
     }
@@ -979,7 +985,9 @@
         </div>
       `).join('');
 
-      grid.querySelectorAll('.card').forEach(c => observer.observe(c));
+      requestAnimationFrame(() => {
+        grid.querySelectorAll('.card').forEach(c => observer.observe(c));
+      });
     }
 
     /* ---- Scroll-to-top button ---- */
